@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Cristian Sandoval y Constanza Trujillo">
+
+<title>Taller 2 - Reproducibilidad y comunicación de datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap-a1ff8711b79ae3724c050874b28d9907.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background: #ffffff;
+      }
+</style>
+<link href="index_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="index_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="index_files/libs/viz-1.8.2/viz.js"></script>
+
+<link href="index_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="index_files/libs/grViz-binding-1.0.11/grViz.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Taller 2 - Reproducibilidad y comunicación de datos</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Autor/a</div>
+      <div class="quarto-title-meta-contents">
+               <p>Cristian Sandoval y Constanza Trujillo </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Fecha de publicación</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">23 de diciembre de 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#el-rostro-del-nuevo-electorado-caracterización-de-los-votantes-emergentes-en-chile" id="toc-el-rostro-del-nuevo-electorado-caracterización-de-los-votantes-emergentes-en-chile" class="nav-link active" data-scroll-target="#el-rostro-del-nuevo-electorado-caracterización-de-los-votantes-emergentes-en-chile"><span class="header-section-number">1</span> <strong>“El rostro del nuevo electorado: Caracterización de los votantes emergentes en Chile”</strong></a>
+  <ul>
+  <li><a href="#contexto" id="toc-contexto" class="nav-link" data-scroll-target="#contexto"><span class="header-section-number">1.1</span> <strong>Contexto</strong></a></li>
+  <li><a href="#objetivos-del-estudio" id="toc-objetivos-del-estudio" class="nav-link" data-scroll-target="#objetivos-del-estudio"><span class="header-section-number">1.2</span> <strong>Objetivos del estudio</strong></a></li>
+  <li><a href="#justificación-y-metodología" id="toc-justificación-y-metodología" class="nav-link" data-scroll-target="#justificación-y-metodología"><span class="header-section-number">1.3</span> <strong>Justificación y metodología</strong></a></li>
+  <li><a href="#arquitectura-de-datos-etl" id="toc-arquitectura-de-datos-etl" class="nav-link" data-scroll-target="#arquitectura-de-datos-etl"><span class="header-section-number">1.4</span> <strong>Arquitectura de datos (ETL)</strong></a></li>
+  <li><a href="#modelo-conceptual" id="toc-modelo-conceptual" class="nav-link" data-scroll-target="#modelo-conceptual"><span class="header-section-number">1.5</span> <strong>Modelo Conceptual</strong></a></li>
+  <li><a href="#modelo-lógico" id="toc-modelo-lógico" class="nav-link" data-scroll-target="#modelo-lógico"><span class="header-section-number">1.6</span> <strong>Modelo lógico</strong></a></li>
+  <li><a href="#métricas-y-dimensiones-del-análisis-de-datos" id="toc-métricas-y-dimensiones-del-análisis-de-datos" class="nav-link" data-scroll-target="#métricas-y-dimensiones-del-análisis-de-datos"><span class="header-section-number">1.7</span> <strong>Métricas y dimensiones del análisis de datos</strong></a></li>
+  <li><a href="#limitaciones-y-consideraciones-éticas-en-el-uso-de-los-datos" id="toc-limitaciones-y-consideraciones-éticas-en-el-uso-de-los-datos" class="nav-link" data-scroll-target="#limitaciones-y-consideraciones-éticas-en-el-uso-de-los-datos"><span class="header-section-number">1.8</span> Limitaciones y consideraciones éticas en el uso de los datos</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>install_and_load <span class="ot">&lt;-</span> <span class="cf">function</span>(package) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(package, <span class="at">character.only =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    utils<span class="sc">::</span><span class="fu">install.packages</span>(package)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(package, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># List of packages to be installed and loaded</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"knitr"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>              <span class="st">"kableExtra"</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>              <span class="st">"DT"</span>, </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>              <span class="st">"table1"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">"reticulate"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">"gapminder"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">"latex2exp"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            <span class="st">"tidyverse"</span>, </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="st">"plotly"</span>, </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">"sf"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">"dplyr"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">"haven"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">"scales"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each package</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">capture.output</span>(<span class="fu">sapply</span>(packages, install_and_load)))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>body {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-family</span><span class="ch">:</span> <span class="dv">Arial</span><span class="op">,</span> <span class="dv">sans-serif</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">line-height</span><span class="ch">:</span> <span class="dv">1.5</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>h1 {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">color</span><span class="ch">:</span> <span class="cn">#333333</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>p {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">text-align</span><span class="ch">:</span> <span class="dv">justify</span><span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<style type="text/css">
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+h1 {
+  color: #333333;
+}
+
+p {
+  text-align: justify;
+}
+
+</style>
+</div>
+<section id="el-rostro-del-nuevo-electorado-caracterización-de-los-votantes-emergentes-en-chile" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> <strong>“El rostro del nuevo electorado: Caracterización de los votantes emergentes en Chile”</strong></h1>
+<section id="contexto" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="contexto"><span class="header-section-number">1.1</span> <strong>Contexto</strong></h2>
+<p>Un primer elemento clave para comprender la naturaleza del fenómeno de los nuevos votantes es la naturaleza del sistema electoral chileno, y los cambios profundos que ha experimentado a partir de la ley N°21.524, promulgada en enero de 2023, en donde se restablece el sufragio obligatorio con inscripción automática en Chile, aplicable a todas las elecciones y plebiscitos, exceptuando las elecciones primarias. Este cambio normativo busca incentivar un aumento en la participación ciudadana, el cual efectivamente se ha podido observar en los porcentajes de participación de las elecciones luego de su implementación, con porcentajes por sobre el 80% de participación en todas las elecciones con voto obligatorio de los últimos años.</p>
+<p>Si bien este aumento en la participación electoral es un resultado positivo en términos de los objetivos de la legislación, también viene acompañado por determinados desafíos que es necesario que la sociedad chilena y el sistema político aborden, uno de ellos tiene que ver con la comprensión de este nuevo electorado, tanto en su composición sociodemográfica, como también en sus percepciones asociados a la democracia, por ejemplo en sus niveles de información e interés en los procesos electorales, valoración de la democracia, o en su comportamiento electoral en términos de votos válidos e inválidos. Si bien esto último no se encuentra directamente al alcance con la información disponible actualmente, si es posible profundizar en la composición sociodemográfica de este grupo, evaluando sus similitudes y diferencias con otros tipos de electorado más tradicionales.</p>
+<p>Adicionalmente, se debe tener en consideración que durante los últimos años se ha generado un ambiente de alta desafección y desconfianza con la política en la sociedad chilena, y este ambiente ha quedado de manifiesto en múltiples estudios de opinión pública. Por ejemplo, la Encuesta Bicentenario del año 2023 muestra un escenario en donde solo un 1% manifestó tener mucha confianza o bastante confianza en los Partidos Políticos y en los Parlamentarios, mientras que un 11% indicó lo mismo respecto del Gobierno (Pontificia Universidad Católica de Chile &amp; GfK Adimark, 2023). Este contexto de desconfianza puede influir de manera directa en la participación en los procesos electorales, ya sea que se manifieste directamente como abstención de participar, o bien con otras expresiones como los votos nulos o blancos.</p>
+<p>Desde la <strong>teoría de la participación electoral</strong>, Verba y Nie (1972) sostienen que la participación política está influenciada por recursos individuales, incentivos y normas sociales. En este sentido, el voto obligatorio introduce un incentivo coercitivo que disminuye las barreras de entrada al proceso electoral, facilitando la incorporación de nuevos electores. De igual forma, la <strong>teoría de la acción racional</strong> de Downs (1957) refuerza este argumento al plantear que los individuos toman decisiones basadas en un análisis de costo-beneficio, por lo que bajo el voto obligatorio, los costos de no participar aumentan, por lo que se incentiva a una participación más amplia.</p>
+<p>Desde otra perspectiva, el fenómeno de los nuevos votantes puede analizarse a través de la <strong>teoría de la socialización política</strong>, la que es fundamental para la formación de actitudes cívicas y una cultura cívica. Almond y Verba (1963) sostienen que el voto obligatorio contribuye a construir una percepción del sufragio no sólo como un derecho, sino también como un deber ciudadano. Esto promueve la formación de patrones cívicos más sólidos en los votantes. Asimismo, la <strong>teoría generacional</strong> de Inglehart (1997) plantea que las experiencias políticas iniciales de los nuevos votantes en contextos de obligatoriedad del voto podrían dar lugar a comportamientos y actitudes diferentes a las de generaciones anteriores, generando cambios en la cultura política del país a largo plazo.</p>
+<p>La <strong>reconfiguración del electorado</strong> es otra forma de comprender la relevancia del voto obligatorio. De acuerdo con Lijphart (1997), el voto obligatorio tiende a aumentar la participación electoral general, reduciendo brechas históricas entre grupos socioeconómicos y etarios, e incorporando sectores que tradicionalmente muestran mayores niveles de abstención (como jóvenes y personas con menor nivel educativo). Finalmente, desde una <strong>perspectiva institucional</strong>, North (1990) sostiene que el cambio de las reglas formales, como el cambio al voto obligatorio, generan nuevos incentivos y restricciones que reconfiguran el comportamiento electoral. Esta ley, que implica un cambio normativo, también se presenta como una oportunidad para analizar cómo los nuevos votantes responden a estas transformaciones institucionales, y cómo su participación puede incidir en la legitimidad y representatividad de las elecciones.</p>
+</section>
+<section id="objetivos-del-estudio" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="objetivos-del-estudio"><span class="header-section-number">1.2</span> <strong>Objetivos del estudio</strong></h2>
+<ul>
+<li><p>Caracterizar a los nuevos votantes que participaron en elecciones generales en Chile desde la implementación del régimen de voto obligatorio</p></li>
+<li><p>Diseñar tipología de tipos de votante en base a su comportamiento electoral</p></li>
+<li><p>Comparar sociodemograficamente entre grupos de votantes según su comportamiento electoral</p></li>
+</ul>
+</section>
+<section id="justificación-y-metodología" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="justificación-y-metodología"><span class="header-section-number">1.3</span> <strong>Justificación y metodología</strong></h2>
+<p>Los principios de reproducibilidad, replicabilidad y ciencia abierta son esenciales para asegurar la calidad y el impacto de este tipo de estudio. La reproducibilidad (que implica que otros investigadores puedan reproducir el estudio utilizando los mismos datos y métodos) es un principio fundamental de las ciencias sociales, donde fenómenos complejos como la participación electoral requieren metodologías claras que puedan ser verificadas y ampliadas por otros estudios.</p>
+<p>En el contexto de este estudio, un factor clave de la reproducibilidad tiene que ver con las diversas fuentes posibles de información sobre la participación electoral de los ciudadanos/as, ya que la fuente oficial de datos electorales (SERVEL), entrega diversos resultados de participación a lo largo de un proceso electoral. Por ejemplo, en sus resultados preliminares inmediatamente finalizada una elección, pero también en resultados oficiales luego de su validación por el TRICEL. La especificación de cuáles son los datos utilizados es fundamental para la reproducibilidad de los resultados, además de que su integración en un único estudio no solo facilita el acceso a la información, sino que permite revisar de forma integral el fenómeno, lo que otorga una visión más precisa y completa del comportamiento electoral.</p>
+<p>En tanto, la replicabilidad hace referencia a que los resultados puedan ser validados en contextos diferentes o momentos históricos distintos. Esto ayuda a descubrir variaciones y patrones contextuales que aportan a la teoría y práctica en el análisis de la participación política. En este caso, el fenómeno de las elecciones y sus niveles de participación es una problemática de estudio transversal a todas las democracias, cada una de ellas con sus propias especificidades (por ejemplo, si la inscripción al padrón es automática o voluntaria, si es permanente o transitoria, si el voto es electrónico, si se puede votar anticipadamente, entre muchas otras), por lo que un estudio de este tipo puede resultar fundamental como insumo y experiencia comparada para investigaciones similares en contextos electorales diferentes, ya sea dentro de Chile o en otros países.</p>
+<p>El principio de ciencia abierta promueve el acceso a datos, métodos y resultados, lo que permite a investigadores utilizar la información y reinterpretarla. Este principio no sólo democratiza el conocimiento, sino que también contribuye a la transparencia del proceso científico y a la construcción de políticas basadas en evidencia. <strong>Los debates actuales de ciencia de datos (Abbasi et al.&nbsp;2023)</strong> se centran en que los esfuerzos científicos deben dirigirse hacia desafíos sociales como la equidad, la justicia y la participación ciudadana. Esto, utilizando metodologías sólidas y accesibles que generen un impacto tangible en la sociedad.</p>
+<p>Para poder cumplir con estos principios de ciencia abierta, reproducibilidad y replicabilidad, se generará un modelo dimensional, el cual es una de las técnicas más aceptadas para la presentación de análisis de datos, ya que aborda dos requerimientos clave: <strong>Entregar información entendible para los usuarios y entregar requerimientos de datos de manera rápida (Kimball y Ross, 2013)</strong>. El proyecto actual se plantea bajo estos mismos principios, buscando modelar información de manera simple y fácil de interpretar, utilizando también diversas recomendaciones para la <strong>gestión de datos (Wilson et al, 2017)</strong>, tales como la creación de datos fáciles de entender, amigables para el análisis, con múltiples tablas con identificadores únicos para cada registro, entre otros.</p>
+</section>
+<section id="arquitectura-de-datos-etl" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="arquitectura-de-datos-etl"><span class="header-section-number">1.4</span> <strong>Arquitectura de datos (ETL)</strong></h2>
+<p><strong>Extract</strong></p>
+<p>En esta fase se recopilan los datos de diversas fuentes relevantes para el estudio. Las principales tareas y fuentes incluyen:</p>
+<ul>
+<li><p>Fuentes de Datos:</p>
+<ul>
+<li><p>SERVEL: Datos del padrón electoral, participación por edad, género y región.</p></li>
+<li><p>Encuestas públicas:</p>
+<ul>
+<li>CASEN (nivel socioeconómico, edad, región).</li>
+</ul></li>
+<li><p>Datos históricos: Elecciones anteriores (comparación con voto voluntario).</p></li>
+</ul></li>
+</ul>
+<p><strong>Transform</strong></p>
+<p>En esta fase, los datos extraídos se limpian, integran y procesan para generar datasets coherentes y listos para el análisis.</p>
+<ul>
+<li><p>Limpieza de Datos:</p>
+<ul>
+<li><p>Eliminar duplicados y registros incompletos.</p></li>
+<li><p>Estandarización de nombres de variables (edad, género, región, etc.).</p></li>
+<li><p>Tratamiento de valores nulos y errores tipográficos.</p></li>
+</ul></li>
+<li><p>Integración de Fuentes:</p>
+<ul>
+<li><p>Unión de bases de datos a través de identificadores comunes (e.j., región, edad).</p></li>
+<li><p>Generación de nuevas variables derivadas, como:</p>
+<ul>
+<li>Clasificación de edad (jóvenes 18-24, adultos jóvenes, etc.).</li>
+</ul></li>
+</ul></li>
+<li><p>Normalización de Datos:</p>
+<ul>
+<li><p>Aplicación de estructuras tabulares normalizadas para evitar redundancias.</p></li>
+<li><p>Normalización de datos categóricos (codificación de género)</p></li>
+</ul></li>
+<li><p>Filtrado de nuevos votantes según criterios: edad, participación electoral.</p></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Cálculo de indicadores como:</p>
+<ul>
+<li><p>Tasa de participación.</p></li>
+<li><p>Comparación de participación regional.</p></li>
+</ul></li>
+</ul>
+<p><strong>Load</strong></p>
+<p>En esta fase, los datos transformados se almacenan en un sistema o entorno adecuado para su análisis final.</p>
+<ul>
+<li><p>Sistema de almacenamiento:</p>
+<ul>
+<li>Github → Herramienta colaborativa para la reproducibilidad</li>
+</ul></li>
+<li><p>Visualización y análisis de resultados</p>
+<ul>
+<li><p>Estadísticos descriptivos</p></li>
+<li><p>Visualización con ggplot2</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="modelo-conceptual" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="modelo-conceptual"><span class="header-section-number">1.5</span> <strong>Modelo Conceptual</strong></h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grViz</span>(<span class="st">"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">  digraph ModeloLogico {</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">    graph [layout = dot, rankdir = LR]</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">    node [shape = rectangle, style = filled, fillcolor = lightgrey, fontname = Arial, fontsize = 10]</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">    // Definición de las tablas y sus atributos</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">   </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="st">   Eleccion [label = &lt;&lt;B&gt;Elección&lt;/B&gt;&lt;BR ALIGN='LEFT'/&gt;&lt;FONT POINT-SIZE='10'&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Elección (PK)&lt;BR/&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="st">    Nombre_Elección&lt;BR/&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="st">    Tipo_Elección&lt;BR/&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="st">    Tipo_Votación&lt;BR/&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="st">    Fecha&lt;/FONT&gt;&gt;]</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="st">  Ciudadano [label = &lt;&lt;B&gt;Ciudadano&lt;/B&gt;&lt;BR ALIGN='LEFT'/&gt;&lt;FONT POINT-SIZE='10'&gt;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="st">    RUT_ANON (PK)&lt;BR/&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Comuna (FK)&lt;BR/&gt;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Region&lt;BR/&gt;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="st">    Sexo&lt;BR/&gt;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="st">    Tramo_etario&lt;BR/&gt;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="st">    Nacionalidad&lt;BR/&gt;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="st">    Afiliacion_partido&lt;/FONT&gt;&gt;]</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="st">   Mesa [label = &lt;&lt;B&gt;Mesa&lt;/B&gt;&lt;BR ALIGN='LEFT'/&gt;&lt;FONT POINT-SIZE='10'&gt;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Mesa (PK)&lt;BR/&gt;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="st">    Número_Mesa&lt;BR/&gt;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="st">    Local_Votación&lt;BR/&gt;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Elección (FK)&lt;BR/&gt;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Región&lt;BR/&gt;</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Comuna (FK)&lt;BR/&gt;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="st">    Padron_Mesa&lt;/FONT&gt;&gt;]</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="st">  Votacion [shape = diamond, label = &lt;&lt;B&gt;Votación&lt;/B&gt;&lt;BR ALIGN='LEFT'/&gt;&lt;FONT POINT-SIZE='10'&gt;</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Votación (PK)&lt;BR/&gt;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Elección (FK)&lt;BR/&gt;</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Mesa (FK)&lt;BR/&gt;</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Comuna (FK)&lt;BR/&gt;</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Región&lt;BR/&gt;</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="st">    Tipo_Voto&lt;BR/&gt;</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="st">    Cantidad_votos&lt;/FONT&gt;&gt;]</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="st">  Comuna [label = &lt;&lt;B&gt;Comuna&lt;/B&gt;&lt;BR ALIGN='LEFT'/&gt;&lt;FONT POINT-SIZE='10'&gt;</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Comuna (PK)&lt;BR/&gt;</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="st">    Nombre_Comuna&lt;BR/&gt;</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ID_Región&lt;BR/&gt;</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="st">    Porcentaje_Pobreza_CASEN&lt;/FONT&gt;&gt;, width = 1.5]</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="st">// Definición de relaciones con posiciones organizadas</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="st">    edge [arrowhead = vee, fontsize = 10, color = black]</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="st">    Mesa -&gt; Eleccion [label = 'Habilitada para']</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="st">    Mesa -&gt; Comuna [label = 'Pertenece a']</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="st">    Ciudadano -&gt; Mesa [label = 'Asignado a']</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="st">    Ciudadano -&gt; Votacion</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="st">    Votacion -&gt; Eleccion</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="st">    Votacion -&gt; Mesa [label = 'Ocurre en']</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item" id="htmlwidget-b347d3a98289a5ecd077" style="width:100%;height:487px;"></div>
+<script type="application/json" data-for="htmlwidget-b347d3a98289a5ecd077">{"x":{"diagram":"\n  digraph ModeloLogico {\n    graph [layout = dot, rankdir = LR]\n    \n    node [shape = rectangle, style = filled, fillcolor = lightgrey, fontname = Arial, fontsize = 10]\n    \n    // Definición de las tablas y sus atributos\n   \n   Eleccion [label = <<B>Elección<\/B><BR ALIGN=\"LEFT\"/><FONT POINT-SIZE=\"10\">\n    ID_Elección (PK)<BR/>\n    Nombre_Elección<BR/>\n    Tipo_Elección<BR/>\n    Tipo_Votación<BR/>\n    Fecha<\/FONT>>]\n    \n  Ciudadano [label = <<B>Ciudadano<\/B><BR ALIGN=\"LEFT\"/><FONT POINT-SIZE=\"10\">\n    RUT_ANON (PK)<BR/>\n    ID_Comuna (FK)<BR/>\n    ID_Region<BR/>\n    Sexo<BR/>\n    Tramo_etario<BR/>\n    Nacionalidad<BR/>\n    Afiliacion_partido<\/FONT>>]\n    \n    \n   Mesa [label = <<B>Mesa<\/B><BR ALIGN=\"LEFT\"/><FONT POINT-SIZE=\"10\">\n    ID_Mesa (PK)<BR/>\n    Número_Mesa<BR/>\n    Local_Votación<BR/>\n    ID_Elección (FK)<BR/>\n    ID_Región<BR/>\n    ID_Comuna (FK)<BR/>\n    Padron_Mesa<\/FONT>>]\n    \n    \n  Votacion [shape = diamond, label = <<B>Votación<\/B><BR ALIGN=\"LEFT\"/><FONT POINT-SIZE=\"10\">\n    ID_Votación (PK)<BR/>\n    ID_Elección (FK)<BR/>\n    ID_Mesa (FK)<BR/>\n    ID_Comuna (FK)<BR/>\n    ID_Región<BR/>\n    Tipo_Voto<BR/>\n    Cantidad_votos<\/FONT>>]\n    \n  Comuna [label = <<B>Comuna<\/B><BR ALIGN=\"LEFT\"/><FONT POINT-SIZE=\"10\">\n    ID_Comuna (PK)<BR/>\n    Nombre_Comuna<BR/>\n    ID_Región<BR/>\n    Porcentaje_Pobreza_CASEN<\/FONT>>, width = 1.5]\n    \n    \n// Definición de relaciones con posiciones organizadas\n    edge [arrowhead = vee, fontsize = 10, color = black]\n    Mesa -> Eleccion [label = \"Habilitada para\"]\n    Mesa -> Comuna [label = \"Pertenece a\"]\n    Ciudadano -> Mesa [label = \"Asignado a\"]\n    Ciudadano -> Votacion\n    Votacion -> Eleccion\n    Votacion -> Mesa [label = \"Ocurre en\"]\n  }\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="modelo-lógico" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="modelo-lógico"><span class="header-section-number">1.6</span> <strong>Modelo lógico</strong></h2>
+</section>
+<section id="métricas-y-dimensiones-del-análisis-de-datos" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="métricas-y-dimensiones-del-análisis-de-datos"><span class="header-section-number">1.7</span> <strong>Métricas y dimensiones del análisis de datos</strong></h2>
+<p><strong>MÉTRICAS</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 74%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Tasa de participación electoral</td>
+<td><p>Porcentaje de votantes habilitados que emitieron su voto.</p>
+<p>Fórmula: <span class="math inline">\(\frac{Votos Emitidos}{Total de Votantes Habilitados}*100\)</span></p>
+<p>Niveles de análisis (Subconjuntos para estratificar): Este dato se puede presentar agrupado a nivel de las entidades mesa, comuna y elección.</p>
+<p>Filtros: A nivel de individuo, la información puede filtrarse por sexo, tramo etario y nacionalidad, para poder analizar por segmentos la tasa de participación.</p></td>
+</tr>
+<tr class="even">
+<td>Clasificación de tipo de votante</td>
+<td><p>En base a las 8 elecciones consideradas para el análisis, se clasificará a cada ciudadano según los siguientes criterios. |</p>
+<p>Votante permanente: 100% de participación en todas las elecciones posibles.</p>
+<p>Nuevo votante: 0% de participación en las elecciones de 2020 y 2021 (si es que forma parte del padrón), y &gt;0% en las elecciones de 2022 en adelante.</p>
+<p>Votante Esporádico: Todas las demás combinaciones.</p>
+<p>Fórmula:</p>
+<p>1. Participación elecciones con voto voluntario (P1): <span class="math inline">\(\frac{n de Elecciones con Voto Voluntario}{Total de Elecciones con Voto Voluntario}*100\)</span></p>
+<p>2. Participación elecciones con voto obligatorio (P2): <span class="math inline">\(\frac{n de Elecciones con Voto Obligatorio}{Total de Elecciones Posibles con Voto Obligatorio}*100\)</span></p>
+<p>Nota 1: Se consideran como elecciones posibles sólo aquellas desarrolladas entre 2020 y 2024, y que consideren a la totalidad del padrón electoral (no incluye primarias ni 2da vuelta de Gobernadores)</p>
+<p>Nota 2: Las personas que cumplieron su edad para votar durante el periodo analizado (2020 a 2024)&nbsp; serán categorizadas como “votante permanente” si es que participaron en todas sus elecciones posibles, o “votante esporádico” en las demás combinaciones.</p>
+<p>Reglas de clasificación (R):</p>
+<p><em>datos ← datos %&gt;%</em></p>
+<p><em>mutate(Tipo_Votante = case_when(</em></p>
+<p><em>P1 == 100 &amp; P2 == 100 ~ “Votante Permanente”,</em></p>
+<p><em>P1 == 0 &amp; P2 != 0 ~ “Nuevo Votante”,</em></p>
+<p><em>TRUE ~ “Votante Esporádico”))</em></p>
+<p>*Posteriormente se deben identificar los “nuevos votantes” que cumplieron su edad de votar durante el periodo estudiado, y recodificarlos como “votante esporádico”.</p>
+<p>Niveles de análisis (Subconjuntos para estratificar): La tipología de votantes puede analizarse a nivel total, o agrupada por comuna o mesa.</p>
+<p>Filtros: A nivel de individuo, la tipología puede filtrarse por datos sociodemográficos (sexo, tramo etario, nacionalidad, afiliación a partido político)</p></td>
+</tr>
+<tr class="odd">
+<td>Distribución de nuevos votantes por tramo etario</td>
+<td><p>Frecuencias absolutas y relativas de la variable tramo etario según el tipo de votante (Tipo_Votante)</p>
+<p>Nivel de análisis (Subconjuntos para estratificar): Total, comunal y por mesa</p></td>
+</tr>
+<tr class="even">
+<td>Distribución de nuevos votantes por sexo</td>
+<td><p>Frecuencias absolutas y relativas de la variable sexo según el tipo de votante (Tipo_Votante)</p>
+<p>Nivel de análisis (Subconjuntos para estratificar): Total, comunal y por mesa</p></td>
+</tr>
+<tr class="odd">
+<td>Distribución de nuevos votantes por afiliación a partido político</td>
+<td><p>Frecuencias absolutas y relativas de la variable afiliación partido político según el tipo de votante (Tipo_Votante)</p>
+<p>Nivel de análisis (Subconjuntos para estratificar): Total, comunal y por mesa</p></td>
+</tr>
+<tr class="even">
+<td>Distribución de nuevos votantes por nacionalidad</td>
+<td><p>Frecuencias absolutas y relativas de la variable nacionalidad según el tipo de votante (Tipo_Votante)</p>
+<p>Nivel de análisis (Subconjuntos para estratificar): Total, comunal y por mesa</p></td>
+</tr>
+<tr class="odd">
+<td>Distribución de nuevos votantes según pobreza a nivel comunal</td>
+<td><p>Correlación entre “Porcentaje_Pobreza_CASEN” y “Porcentaje de nuevos votantes” a nivel comunal</p>
+<p>Nivel de análisis (Subconjuntos para estratificar): Solo comunal.</p></td>
+</tr>
+<tr class="even">
+<td>Agrupar los porcentajes de “nuevos votantes” según mesa e identificar “tipos” de mesa</td>
+<td><p>Calcular el porcentaje de nuevos votantes por mesa (A partir de la variable “Tipo_Votante”):</p>
+<p>Fórmula: <span class="math inline">\(Tipo_Mesa = \frac{n de Nuevos Votantes de la Mesa}{Padrón Electoral de la Mesa}*100\)</span></p>
+<p>Una vez identificado, clasificar las mesas según el porcentaje de “nuevos votantes” (Tipo_Mesa2):</p>
+<p>- Mesas de mayoría de nuevos votantes: 70% o más son nuevos votantes.</p>
+<p>- Mesas mixtas: Entre 31% y 69% son nuevos votantes.</p>
+<p>- Mesas de minoría de nuevos votantes: 30% o menos son nuevos votantes.</p>
+<p>Nota: Los porcentajes de clasificación son tentativos, y se revisarán una vez que se tenga la distribución de la variable Tipo_Mesa.</p>
+<p>Nivel de análisis (Subconjuntos para estratificar): Solo por Mesa.</p>
+<p>Filtros: Se puede filtrar por atributos de la mesa, como por ejemplo el local de votación.</p></td>
+</tr>
+<tr class="odd">
+<td>Porcentaje de votos nulos y blancos por tipo de mesa (Tipo_Mesa2)</td>
+<td><p>Calcular el porcentaje de votos nulos y blancos para cada tipología de mesa creada con la variable “Tipo_Mesa2”</p>
+<p><em>Resultados ←&nbsp; datos %&gt;%</em></p>
+<p><em>group_by(Tipo_Mesa2) %&gt;%</em></p>
+<p><em>summarise(</em></p>
+<p><em>Total_Votos = sum(Votos_Nulos + Votos_Blancos + Votos_Validos),</em></p>
+<p><em>Porcentaje_Nulos = sum(Votos_Nulos) / Total_Votos * 100,</em></p>
+<p><em>Porcentaje_Blancos = sum(Votos_Blancos) / Total_Votos * 100,</em></p>
+<p><em>Porcentaje_Validos = sum(Votos_Validos) / Total_Votos * 100)</em></p>
+<p>Nivel de análisis (Subconjuntos para estratificar): Solo por Mesa.</p>
+<p>Filtros: Se puede filtrar por atributos de la mesa, como por ejemplo el local de votación.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>DIMENSIONES</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 81%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Demográficas</td>
+<td><ul>
+<li><p>Edad (segmentos: jóvenes, adultos, adultos mayores).</p></li>
+<li><p>Género</p></li>
+<li><p>Nacionalidad</p></li>
+<li><p>Región</p></li>
+<li><p>comuna</p></li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Económicas</td>
+<td><ul>
+<li>Porcentaje de Pobreza CASEN (Comuna)</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Contextuales</td>
+<td><ul>
+<li><p>Participación en elecciones previas (Trayectoria Electoral)</p></li>
+<li><p>Afiliación a Partido Político</p></li>
+<li><p>Tipo de Votante</p></li>
+<li><p>Tipo de Mesa</p></li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="limitaciones-y-consideraciones-éticas-en-el-uso-de-los-datos" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="limitaciones-y-consideraciones-éticas-en-el-uso-de-los-datos"><span class="header-section-number">1.8</span> Limitaciones y consideraciones éticas en el uso de los datos</h2>
+<ul>
+<li><p><strong>Disponibilidad de los datos</strong>: La existencia de datos incompletos o inconsistentes puede dificultar un análisis preciso de ciertos subgrupos, como jóvenes o regiones específicas (Ejemplo: Mesas no constituidas o mesas inescrutables).</p></li>
+<li><p><strong>Falta de acceso a información individualizada:</strong> La imposibilidad de acceder a microdatos individualizados de los votantes (por razones de confidencialidad) limita el nivel de detalle del análisis. Los datos se deben pedir por transparencia, ya que la información disponible de modo abierto en el sitio de Servel no permite individualizar a cada ciudadano/a.</p></li>
+<li><p><strong>Riesgo de sesgos o interpretaciones equivocadas:</strong> El análisis debe realizarse desde una perspectiva imparcial, evitando sesgos políticos o interpretaciones que puedan tergiversar los resultados. (Por ejemplo, algunas prenociones que se manejan en el debate público son que los nuevos votantes son un grupo de menor nivel educacional, esto habría que mantenerlo un poco de lado y efectivamente ver si los datos respaldan o no este tipo de hipótesis)</p></li>
+</ul>
+<!-- -->
+<ul>
+<li><strong>Transparencia y reproducibilidad:</strong> Asegurar que el estudio siga los principios de la ciencia abierta y la reproducibilidad, documentando el uso de las fuentes de datos y los métodos analíticos.</li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<script src="index_files/libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

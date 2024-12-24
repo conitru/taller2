@@ -1,0 +1,389 @@
+---
+title: "Taller 2 - Reproducibilidad y comunicación de datos"
+author: "Cristian Sandoval y Constanza Trujillo"
+date: "`r Sys.Date()`" #este es un comando para que aparezca la fecha actual
+lang: es
+format: 
+  html:
+    title-block-banner: "#ffffff" #el color de fondo del banner
+    smooth-scroll: true
+    toc: true #tabla de contenido
+    toc-depth: 6 #niveles de la tabla de contenido
+    toc-location: right #la ubicación de la tabla
+    number-sections: true #que enumere las secciones
+    number-depth: 6
+    code-fold: true #que los códigos se muestren pero ocultos
+    bibliography: ref.bib #se refiere a citas en formato BibTeX
+    theme: cosmo #el tema general, hay muchos tipos
+    fig-cap-location: bottom #la ubicación del pie de nota de las figuras/gráficos
+editor: visual
+
+#    css: styles.css
+execute:
+  python: true #usar python
+  warning: false #que no se muestren los warning
+  message: false #que no se muestren otros mensajes
+  fig-width: 8 #el ancho de la figura/gráfico
+  fig-height: 6 #el alto de la figura/gráfico
+---
+
+```{r}
+install_and_load <- function(package) {
+  if (!require(package, character.only = TRUE)) {
+    utils::install.packages(package)
+    library(package, character.only = TRUE)
+  }
+}
+
+# List of packages to be installed and loaded
+packages <- c("knitr",
+              "kableExtra", 
+              "DT", 
+              "table1",
+            "reticulate",
+            "gapminder",
+            "latex2exp",
+            "tidyverse", 
+            "plotly", 
+            "sf",
+            "dplyr",
+            "haven",
+            "scales")
+
+# Apply the function to each package
+invisible(capture.output(sapply(packages, install_and_load)))
+```
+
+```{css}
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+h1 {
+  color: #333333;
+}
+
+p {
+  text-align: justify;
+}
+
+```
+
+# **“El rostro del nuevo electorado: Caracterización de los votantes emergentes en Chile”**
+
+## **Contexto**
+
+Un primer elemento clave para comprender la naturaleza del fenómeno de los nuevos votantes es la naturaleza del sistema electoral chileno, y los cambios profundos que ha experimentado a partir de la ley N°21.524, promulgada en enero de 2023, en donde se restablece el sufragio obligatorio con inscripción automática en Chile, aplicable a todas las elecciones y plebiscitos, exceptuando las elecciones primarias. Este cambio normativo busca incentivar un aumento en la participación ciudadana, el cual efectivamente se ha podido observar en los porcentajes de participación de las elecciones luego de su implementación, con porcentajes por sobre el 80% de participación en todas las elecciones con voto obligatorio de los últimos años.
+
+Si bien este aumento en la participación electoral es un resultado positivo en términos de los objetivos de la legislación, también viene acompañado por determinados desafíos que es necesario que la sociedad chilena y el sistema político aborden, uno de ellos tiene que ver con la comprensión de este nuevo electorado, tanto en su composición sociodemográfica, como también en sus percepciones asociados a la democracia, por ejemplo en sus niveles de información e interés en los procesos electorales, valoración de la democracia, o en su comportamiento electoral en términos de votos válidos e inválidos. Si bien esto último no se encuentra directamente al alcance con la información disponible actualmente, si es posible profundizar en la composición sociodemográfica de este grupo, evaluando sus similitudes y diferencias con otros tipos de electorado más tradicionales.
+
+Adicionalmente, se debe tener en consideración que durante los últimos años se ha generado un ambiente de alta desafección y desconfianza con la política en la sociedad chilena, y este ambiente ha quedado de manifiesto en múltiples estudios de opinión pública. Por ejemplo, la Encuesta Bicentenario del año 2023 muestra un escenario en donde solo un 1% manifestó tener mucha confianza o bastante confianza en los Partidos Políticos y en los Parlamentarios, mientras que un 11% indicó lo mismo respecto del Gobierno (Pontificia Universidad Católica de Chile & GfK Adimark, 2023). Este contexto de desconfianza puede influir de manera directa en la participación en los procesos electorales, ya sea que se manifieste directamente como abstención de participar, o bien con otras expresiones como los votos nulos o blancos.
+
+Desde la **teoría de la participación electoral**, Verba y Nie (1972) sostienen que la participación política está influenciada por recursos individuales, incentivos y normas sociales. En este sentido, el voto obligatorio introduce un incentivo coercitivo que disminuye las barreras de entrada al proceso electoral, facilitando la incorporación de nuevos electores. De igual forma, la **teoría de la acción racional** de Downs (1957) refuerza este argumento al plantear que los individuos toman decisiones basadas en un análisis de costo-beneficio, por lo que bajo el voto obligatorio, los costos de no participar aumentan, por lo que se incentiva a una participación más amplia.
+
+Desde otra perspectiva, el fenómeno de los nuevos votantes puede analizarse a través de la **teoría de la socialización política**, la que es fundamental para la formación de actitudes cívicas y una cultura cívica. Almond y Verba (1963) sostienen que el voto obligatorio contribuye a construir una percepción del sufragio no sólo como un derecho, sino también como un deber ciudadano. Esto promueve la formación de patrones cívicos más sólidos en los votantes. Asimismo, la **teoría generacional** de Inglehart (1997) plantea que las experiencias políticas iniciales de los nuevos votantes en contextos de obligatoriedad del voto podrían dar lugar a comportamientos y actitudes diferentes a las de generaciones anteriores, generando cambios en la cultura política del país a largo plazo.
+
+La **reconfiguración del electorado** es otra forma de comprender la relevancia del voto obligatorio. De acuerdo con Lijphart (1997), el voto obligatorio tiende a aumentar la participación electoral general, reduciendo brechas históricas entre grupos socioeconómicos y etarios, e incorporando sectores que tradicionalmente muestran mayores niveles de abstención (como jóvenes y personas con menor nivel educativo). Finalmente, desde una **perspectiva institucional**, North (1990) sostiene que el cambio de las reglas formales, como el cambio al voto obligatorio, generan nuevos incentivos y restricciones que reconfiguran el comportamiento electoral. Esta ley, que implica un cambio normativo, también se presenta como una oportunidad para analizar cómo los nuevos votantes responden a estas transformaciones institucionales, y cómo su participación puede incidir en la legitimidad y representatividad de las elecciones.
+
+## **Objetivos del estudio**
+
+-   Caracterizar a los nuevos votantes que participaron en elecciones generales en Chile desde la implementación del régimen de voto obligatorio
+
+-   Diseñar tipología de tipos de votante en base a su comportamiento electoral
+
+-   Comparar sociodemograficamente entre grupos de votantes según su comportamiento electoral
+
+## **Justificación y metodología**
+
+Los principios de reproducibilidad, replicabilidad y ciencia abierta son esenciales para asegurar la calidad y el impacto de este tipo de estudio. La reproducibilidad (que implica que otros investigadores puedan reproducir el estudio utilizando los mismos datos y métodos) es un principio fundamental de las ciencias sociales, donde fenómenos complejos como la participación electoral requieren metodologías claras que puedan ser verificadas y ampliadas por otros estudios.
+
+En el contexto de este estudio, un factor clave de la reproducibilidad tiene que ver con las diversas fuentes posibles de información sobre la participación electoral de los ciudadanos/as, ya que la fuente oficial de datos electorales (SERVEL), entrega diversos resultados de participación a lo largo de un proceso electoral. Por ejemplo, en sus resultados preliminares inmediatamente finalizada una elección, pero también en resultados oficiales luego de su validación por el TRICEL. La especificación de cuáles son los datos utilizados es fundamental para la reproducibilidad de los resultados, además de que su integración en un único estudio no solo facilita el acceso a la información, sino que permite revisar de forma integral el fenómeno, lo que otorga una visión más precisa y completa del comportamiento electoral.
+
+En tanto, la replicabilidad hace referencia a que los resultados puedan ser validados en contextos diferentes o momentos históricos distintos. Esto ayuda a descubrir variaciones y patrones contextuales que aportan a la teoría y práctica en el análisis de la participación política. En este caso, el fenómeno de las elecciones y sus niveles de participación es una problemática de estudio transversal a todas las democracias, cada una de ellas con sus propias especificidades (por ejemplo, si la inscripción al padrón es automática o voluntaria, si es permanente o transitoria, si el voto es electrónico, si se puede votar anticipadamente, entre muchas otras), por lo que un estudio de este tipo puede resultar fundamental como insumo y experiencia comparada para investigaciones similares en contextos electorales diferentes, ya sea dentro de Chile o en otros países.
+
+El principio de ciencia abierta promueve el acceso a datos, métodos y resultados, lo que permite a investigadores utilizar la información y reinterpretarla. Este principio no sólo democratiza el conocimiento, sino que también contribuye a la transparencia del proceso científico y a la construcción de políticas basadas en evidencia. **Los debates actuales de ciencia de datos (Abbasi et al. 2023)** se centran en que los esfuerzos científicos deben dirigirse hacia desafíos sociales como la equidad, la justicia y la participación ciudadana. Esto, utilizando metodologías sólidas y accesibles que generen un impacto tangible en la sociedad.
+
+Para poder cumplir con estos principios de ciencia abierta, reproducibilidad y replicabilidad, se generará un modelo dimensional, el cual es una de las técnicas más aceptadas para la presentación de análisis de datos, ya que aborda dos requerimientos clave: **Entregar información entendible para los usuarios y entregar requerimientos de datos de manera rápida (Kimball y Ross, 2013)**. El proyecto actual se plantea bajo estos mismos principios, buscando modelar información de manera simple y fácil de interpretar, utilizando también diversas recomendaciones para la **gestión de datos (Wilson et al, 2017)**, tales como la creación de datos fáciles de entender, amigables para el análisis, con múltiples tablas con identificadores únicos para cada registro, entre otros.
+
+## **Arquitectura de datos (ETL)**
+
+**Extract**
+
+En esta fase se recopilan los datos de diversas fuentes relevantes para el estudio. Las principales tareas y fuentes incluyen:
+
+-   Fuentes de Datos:
+
+    -   SERVEL: Datos del padrón electoral, participación por edad, género y región.
+
+    -   Encuestas públicas:
+
+        -   CASEN (nivel socioeconómico, edad, región).
+
+    -   Datos históricos: Elecciones anteriores (comparación con voto voluntario).
+
+**Transform**
+
+En esta fase, los datos extraídos se limpian, integran y procesan para generar datasets coherentes y listos para el análisis.
+
+-   Limpieza de Datos:
+
+    -   Eliminar duplicados y registros incompletos.
+
+    -   Estandarización de nombres de variables (edad, género, región, etc.).
+
+    -   Tratamiento de valores nulos y errores tipográficos.
+
+-   Integración de Fuentes:
+
+    -   Unión de bases de datos a través de identificadores comunes (e.j., región, edad).
+
+    -   Generación de nuevas variables derivadas, como:
+
+        -   Clasificación de edad (jóvenes 18-24, adultos jóvenes, etc.).
+
+-   Normalización de Datos:
+
+    -   Aplicación de estructuras tabulares normalizadas para evitar redundancias.
+
+    -   Normalización de datos categóricos (codificación de género)
+
+-   Filtrado de nuevos votantes según criterios: edad, participación electoral.
+
+<!-- -->
+
+-   Cálculo de indicadores como:
+
+    -   Tasa de participación.
+
+    -   Comparación de participación regional.
+
+**Load**
+
+En esta fase, los datos transformados se almacenan en un sistema o entorno adecuado para su análisis final.
+
+-   Sistema de almacenamiento:
+
+    -   Github → Herramienta colaborativa para la reproducibilidad
+
+-   Visualización y análisis de resultados
+
+    -   Estadísticos descriptivos
+
+    -   Visualización con ggplot2
+
+## **Modelo Conceptual**
+
+```{r}
+library(DiagrammeR)
+```
+
+```{r}
+grViz("
+  digraph ModeloLogico {
+    graph [layout = dot, rankdir = LR]
+    
+    node [shape = rectangle, style = filled, fillcolor = lightgrey, fontname = Arial, fontsize = 10]
+    
+    // Definición de las tablas y sus atributos
+   
+   Eleccion [label = <<B>Elección</B><BR ALIGN='LEFT'/><FONT POINT-SIZE='10'>
+    ID_Elección (PK)<BR/>
+    Nombre_Elección<BR/>
+    Tipo_Elección<BR/>
+    Tipo_Votación<BR/>
+    Fecha</FONT>>]
+    
+  Ciudadano [label = <<B>Ciudadano</B><BR ALIGN='LEFT'/><FONT POINT-SIZE='10'>
+    RUT_ANON (PK)<BR/>
+    ID_Comuna (FK)<BR/>
+    ID_Region<BR/>
+    Sexo<BR/>
+    Tramo_etario<BR/>
+    Nacionalidad<BR/>
+    Afiliacion_partido</FONT>>]
+    
+    
+   Mesa [label = <<B>Mesa</B><BR ALIGN='LEFT'/><FONT POINT-SIZE='10'>
+    ID_Mesa (PK)<BR/>
+    Número_Mesa<BR/>
+    Local_Votación<BR/>
+    ID_Elección (FK)<BR/>
+    ID_Región<BR/>
+    ID_Comuna (FK)<BR/>
+    Padron_Mesa</FONT>>]
+    
+    
+  Votacion [shape = diamond, label = <<B>Votación</B><BR ALIGN='LEFT'/><FONT POINT-SIZE='10'>
+    ID_Votación (PK)<BR/>
+    ID_Elección (FK)<BR/>
+    ID_Mesa (FK)<BR/>
+    ID_Comuna (FK)<BR/>
+    ID_Región<BR/>
+    Tipo_Voto<BR/>
+    Cantidad_votos</FONT>>]
+    
+  Comuna [label = <<B>Comuna</B><BR ALIGN='LEFT'/><FONT POINT-SIZE='10'>
+    ID_Comuna (PK)<BR/>
+    Nombre_Comuna<BR/>
+    ID_Región<BR/>
+    Porcentaje_Pobreza_CASEN</FONT>>, width = 1.5]
+    
+    
+// Definición de relaciones con posiciones organizadas
+    edge [arrowhead = vee, fontsize = 10, color = black]
+    Mesa -> Eleccion [label = 'Habilitada para']
+    Mesa -> Comuna [label = 'Pertenece a']
+    Ciudadano -> Mesa [label = 'Asignado a']
+    Ciudadano -> Votacion
+    Votacion -> Eleccion
+    Votacion -> Mesa [label = 'Ocurre en']
+  }
+")
+```
+
+## **Modelo lógico**
+
+## **Métricas y dimensiones del análisis de datos**
+
+**MÉTRICAS**
+
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Tasa de participación electoral                                                       | Porcentaje de votantes habilitados que emitieron su voto.                                                                                                                                                                                                    |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Fórmula: $\frac{Votos Emitidos}{Total de Votantes Habilitados}*100$                                                                                                                                                                                          |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Niveles de análisis (Subconjuntos para estratificar): Este dato se puede presentar agrupado a nivel de las entidades mesa, comuna y elección.                                                                                                                |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Filtros: A nivel de individuo, la información puede filtrarse por sexo, tramo etario y nacionalidad, para poder analizar por segmentos la tasa de participación.                                                                                             |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Clasificación de tipo de votante                                                      | En base a las 8 elecciones consideradas para el análisis, se clasificará a cada ciudadano según los siguientes criterios. \|                                                                                                                                 |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Votante permanente: 100% de participación en todas las elecciones posibles.                                                                                                                                                                                  |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nuevo votante: 0% de participación en las elecciones de 2020 y 2021 (si es que forma parte del padrón), y \>0% en las elecciones de 2022 en adelante.                                                                                                        |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Votante Esporádico: Todas las demás combinaciones.                                                                                                                                                                                                           |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Fórmula:                                                                                                                                                                                                                                                     |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | 1\. Participación elecciones con voto voluntario (P1): $\frac{n de Elecciones con Voto Voluntario}{Total de Elecciones con Voto Voluntario}*100$                                                                                                             |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | 2\. Participación elecciones con voto obligatorio (P2): $\frac{n de Elecciones con Voto Obligatorio}{Total de Elecciones Posibles con Voto Obligatorio}*100$                                                                                                 |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nota 1: Se consideran como elecciones posibles sólo aquellas desarrolladas entre 2020 y 2024, y que consideren a la totalidad del padrón electoral (no incluye primarias ni 2da vuelta de Gobernadores)                                                      |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nota 2: Las personas que cumplieron su edad para votar durante el periodo analizado (2020 a 2024)  serán categorizadas como “votante permanente” si es que participaron en todas sus elecciones posibles, o “votante esporádico” en las demás combinaciones. |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Reglas de clasificación (R):                                                                                                                                                                                                                                 |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *datos ← datos %\>%*                                                                                                                                                                                                                                         |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *mutate(Tipo_Votante = case_when(*                                                                                                                                                                                                                           |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *P1 == 100 & P2 == 100 \~ "Votante Permanente",*                                                                                                                                                                                                             |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *P1 == 0 & P2 != 0 \~ "Nuevo Votante",*                                                                                                                                                                                                                      |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *TRUE \~ "Votante Esporádico"))*                                                                                                                                                                                                                             |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | \*Posteriormente se deben identificar los “nuevos votantes” que cumplieron su edad de votar durante el periodo estudiado, y recodificarlos como “votante esporádico”.                                                                                        |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Niveles de análisis (Subconjuntos para estratificar): La tipología de votantes puede analizarse a nivel total, o agrupada por comuna o mesa.                                                                                                                 |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Filtros: A nivel de individuo, la tipología puede filtrarse por datos sociodemográficos (sexo, tramo etario, nacionalidad, afiliación a partido político)                                                                                                    |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Distribución de nuevos votantes por tramo etario                                      | Frecuencias absolutas y relativas de la variable tramo etario según el tipo de votante (Tipo_Votante)                                                                                                                                                        |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nivel de análisis (Subconjuntos para estratificar): Total, comunal y por mesa                                                                                                                                                                                |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Distribución de nuevos votantes por sexo                                              | Frecuencias absolutas y relativas de la variable sexo según el tipo de votante (Tipo_Votante)                                                                                                                                                                |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nivel de análisis (Subconjuntos para estratificar): Total, comunal y por mesa                                                                                                                                                                                |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Distribución de nuevos votantes por afiliación a partido político                     | Frecuencias absolutas y relativas de la variable afiliación partido político según el tipo de votante (Tipo_Votante)                                                                                                                                         |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nivel de análisis (Subconjuntos para estratificar): Total, comunal y por mesa                                                                                                                                                                                |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Distribución de nuevos votantes por nacionalidad                                      | Frecuencias absolutas y relativas de la variable nacionalidad según el tipo de votante (Tipo_Votante)                                                                                                                                                        |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nivel de análisis (Subconjuntos para estratificar): Total, comunal y por mesa                                                                                                                                                                                |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Distribución de nuevos votantes según pobreza a nivel comunal                         | Correlación entre “Porcentaje_Pobreza_CASEN” y “Porcentaje de nuevos votantes” a nivel comunal                                                                                                                                                               |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nivel de análisis (Subconjuntos para estratificar): Solo comunal.                                                                                                                                                                                            |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Agrupar los porcentajes de “nuevos votantes” según mesa e identificar “tipos” de mesa | Calcular el porcentaje de nuevos votantes por mesa (A partir de la variable “Tipo_Votante”):                                                                                                                                                                 |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Fórmula: $Tipo_Mesa = \frac{n de Nuevos Votantes de la Mesa}{Padrón Electoral de la Mesa}*100$                                                                                                                                                               |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Una vez identificado, clasificar las mesas según el porcentaje de “nuevos votantes” (Tipo_Mesa2):                                                                                                                                                            |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | \- Mesas de mayoría de nuevos votantes: 70% o más son nuevos votantes.                                                                                                                                                                                       |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | \- Mesas mixtas: Entre 31% y 69% son nuevos votantes.                                                                                                                                                                                                        |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | \- Mesas de minoría de nuevos votantes: 30% o menos son nuevos votantes.                                                                                                                                                                                     |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nota: Los porcentajes de clasificación son tentativos, y se revisarán una vez que se tenga la distribución de la variable Tipo_Mesa.                                                                                                                         |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nivel de análisis (Subconjuntos para estratificar): Solo por Mesa.                                                                                                                                                                                           |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Filtros: Se puede filtrar por atributos de la mesa, como por ejemplo el local de votación.                                                                                                                                                                   |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Porcentaje de votos nulos y blancos por tipo de mesa (Tipo_Mesa2)                     | Calcular el porcentaje de votos nulos y blancos para cada tipología de mesa creada con la variable “Tipo_Mesa2”                                                                                                                                              |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *Resultados ←  datos %\>%*                                                                                                                                                                                                                                   |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *group_by(Tipo_Mesa2) %\>%*                                                                                                                                                                                                                                  |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *summarise(*                                                                                                                                                                                                                                                 |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *Total_Votos = sum(Votos_Nulos + Votos_Blancos + Votos_Validos),*                                                                                                                                                                                            |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *Porcentaje_Nulos = sum(Votos_Nulos) / Total_Votos \* 100,*                                                                                                                                                                                                  |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *Porcentaje_Blancos = sum(Votos_Blancos) / Total_Votos \* 100,*                                                                                                                                                                                              |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | *Porcentaje_Validos = sum(Votos_Validos) / Total_Votos \* 100)*                                                                                                                                                                                              |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Nivel de análisis (Subconjuntos para estratificar): Solo por Mesa.                                                                                                                                                                                           |
+|                                                                                       |                                                                                                                                                                                                                                                              |
+|                                                                                       | Filtros: Se puede filtrar por atributos de la mesa, como por ejemplo el local de votación.                                                                                                                                                                   |
++---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+**DIMENSIONES**
+
++--------------+-----------------------------------------------------------------+
+| Demográficas | -   Edad (segmentos: jóvenes, adultos, adultos mayores).        |
+|              |                                                                 |
+|              | -   Género                                                      |
+|              |                                                                 |
+|              | -   Nacionalidad                                                |
+|              |                                                                 |
+|              | -   Región                                                      |
+|              |                                                                 |
+|              | -   comuna                                                      |
++--------------+-----------------------------------------------------------------+
+| Económicas   | -   Porcentaje de Pobreza CASEN (Comuna)                        |
++--------------+-----------------------------------------------------------------+
+| Contextuales | -   Participación en elecciones previas (Trayectoria Electoral) |
+|              |                                                                 |
+|              | -   Afiliación a Partido Político                               |
+|              |                                                                 |
+|              | -   Tipo de Votante                                             |
+|              |                                                                 |
+|              | -   Tipo de Mesa                                                |
++--------------+-----------------------------------------------------------------+
+
+## Limitaciones y consideraciones éticas en el uso de los datos
+
+-   **Disponibilidad de los datos**: La existencia de datos incompletos o inconsistentes puede dificultar un análisis preciso de ciertos subgrupos, como jóvenes o regiones específicas (Ejemplo: Mesas no constituidas o mesas inescrutables).
+
+-   **Falta de acceso a información individualizada:** La imposibilidad de acceder a microdatos individualizados de los votantes (por razones de confidencialidad) limita el nivel de detalle del análisis. Los datos se deben pedir por transparencia, ya que la información disponible de modo abierto en el sitio de Servel no permite individualizar a cada ciudadano/a.
+
+-   **Riesgo de sesgos o interpretaciones equivocadas:** El análisis debe realizarse desde una perspectiva imparcial, evitando sesgos políticos o interpretaciones que puedan tergiversar los resultados. (Por ejemplo, algunas prenociones que se manejan en el debate público son que los nuevos votantes son un grupo de menor nivel educacional, esto habría que mantenerlo un poco de lado y efectivamente ver si los datos respaldan o no este tipo de hipótesis)
+
+<!-- -->
+
+-   **Transparencia y reproducibilidad:** Asegurar que el estudio siga los principios de la ciencia abierta y la reproducibilidad, documentando el uso de las fuentes de datos y los métodos analíticos.
